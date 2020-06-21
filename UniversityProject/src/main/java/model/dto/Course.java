@@ -19,20 +19,16 @@ public class Course {
     @Column(name = "Description")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Student ID")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     private List<Student> students = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Teacher ID")
-    private List<Teachers> teachers = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
+    private List<Teacher> teachers = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Group ID")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     private List<Group> groups = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Timetable ID")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     private List<Timetable> timetables = new ArrayList<>();
 
     public List<Student> getStudents() {
@@ -43,11 +39,11 @@ public class Course {
         this.students = students;
     }
 
-    public List<Teachers> getTeachers() {
+    public List<Teacher> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(List<Teachers> teachers) {
+    public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
     }
 

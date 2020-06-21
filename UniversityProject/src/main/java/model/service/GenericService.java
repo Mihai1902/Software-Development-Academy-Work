@@ -1,5 +1,6 @@
 package model.service;
 
+import model.dao.IGeneric;
 import model.dao.SessionFactorySingleton;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +9,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class GenericService<T> {
+public class GenericService<T> implements IGeneric<T> {
     private SessionFactory sessionFactory;
 
     public GenericService(){
@@ -16,6 +17,7 @@ public class GenericService<T> {
         sessionFactory = sessionFactorySingleton.getSessionFactory();
     }
 
+    @Override
     public void add(T object){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -27,6 +29,7 @@ public class GenericService<T> {
         }
     }
 
+    @Override
     public void update(T object){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -37,7 +40,7 @@ public class GenericService<T> {
             session.close();
         }
     }
-
+    @Override
     public void delete(T object){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -48,8 +51,9 @@ public class GenericService<T> {
             session.close();
         }
     }
-
-    public List<T> getAll(T object){
+    @Override
+    public List<T> getAll(){
+        T object = null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from " + object.getClass().getName(),object.getClass());
@@ -61,8 +65,9 @@ public class GenericService<T> {
         }
         return results;
     }
-
-    public T findByiD(T object, int id){
+    @Override
+    public T findById(int id){
+        T object = null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         object = (T) session.find(object.getClass(), id);

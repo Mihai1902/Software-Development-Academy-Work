@@ -21,7 +21,14 @@ public class Group {
     private List<SubGroup> subGroups;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Course ID")
+    @JoinTable(
+            name="groups_courses", catalog = "university",
+            joinColumns = {
+                    @JoinColumn(name="id", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="id", nullable = false, updatable = false)
+            })
     private List<Course> courses = new ArrayList<>();
 
     public void setSubGroups(List<SubGroup> subGroups) {

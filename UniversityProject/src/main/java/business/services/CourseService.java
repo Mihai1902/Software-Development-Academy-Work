@@ -21,7 +21,7 @@ public class CourseService {
     }
 
     public Course findCourse(int id){
-        return courseGeneric.findByiD(id);
+        return courseGeneric.findById(id);
     }
 
     public List<Course> getCourses(){

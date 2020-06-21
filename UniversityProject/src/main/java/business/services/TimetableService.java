@@ -22,7 +22,7 @@ public class TimetableService {
     }
 
     public Timetable findTimetable(int id){
-        return timetableGeneric.findByiD(id);
+        return timetableGeneric.findById(id);
     }
 
     public List<Timetable> getTimetables(){

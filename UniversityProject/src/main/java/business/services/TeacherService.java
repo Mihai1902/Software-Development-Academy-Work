@@ -1,6 +1,5 @@
 package business.services;
 
-import model.dto.Teacher;
 import model.service.GenericService;
 
 import java.util.List;

@@ -24,7 +24,14 @@ public class Timetable {
     private LocalDateTime end;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Course ID")
+    @JoinTable(
+            name="timetables_courses", catalog = "university",
+            joinColumns = {
+                    @JoinColumn(name="id", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="id", nullable = false, updatable = false)
+            })
     private List<Course> courses = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -17,7 +17,7 @@ public class SubGroup {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Group ID")
+    @JoinColumn(name = "Subgroup ID")
     private Group group;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

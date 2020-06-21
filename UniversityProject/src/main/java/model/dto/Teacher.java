@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Students")
-public class Student {
-
+@Table(name = "Teachers")
+public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -17,13 +16,9 @@ public class Student {
     @Column(name = "Last Name")
     private String lastName;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Student ID")
-    private SubGroup subGroup;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name="students_courses", catalog = "university",
+            name="teachers_courses", catalog = "university",
             joinColumns = {
                     @JoinColumn(name="id", nullable = false, updatable = false)
             },
@@ -32,12 +27,12 @@ public class Student {
             })
     private List<Course> courses = new ArrayList<>();
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     public int getId() {

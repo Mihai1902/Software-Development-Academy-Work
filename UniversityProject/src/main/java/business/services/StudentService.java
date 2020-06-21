@@ -22,7 +22,7 @@ public class StudentService {
     }
 
     public Student findStudent(int id){
-        return studentGeneric.findByiD(id);
+        return studentGeneric.findById(id);
     }
 
     public List<Student> getStudents(){

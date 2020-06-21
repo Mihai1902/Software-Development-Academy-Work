@@ -21,7 +21,7 @@ public class GroupService {
     }
 
     public Group findGroup(int id){
-        return groupGeneric.findByiD(id);
+        return groupGeneric.findById(id);
     }
 
     public List<Group> getGroups(){

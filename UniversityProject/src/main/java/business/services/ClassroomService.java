@@ -21,7 +21,7 @@ public class ClassroomService {
     }
 
     public Classroom findClassroom(int id){
-        return classroomGeneric.findByiD(id);
+        return classroomGeneric.findById(id);
     }
 
     public List<Classroom> getClassrooms(){

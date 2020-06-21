@@ -22,7 +22,7 @@ public class SubGroupService {
     }
 
     public SubGroup findSubGroup(int id){
-        return subGroupGeneric.findByiD(id);
+        return subGroupGeneric.findById(id);
     }
 
     public List<SubGroup> getSubGroups(){
