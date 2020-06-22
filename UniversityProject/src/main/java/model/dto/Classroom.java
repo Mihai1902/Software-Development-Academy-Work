@@ -11,11 +11,11 @@ public class Classroom {
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "Classroom Name")
+    @Column(name = "ClassroomName")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Classroom ID")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ClassroomID")
     private Timetable timetable;
 
     public void setTimetable(Timetable timetable) {

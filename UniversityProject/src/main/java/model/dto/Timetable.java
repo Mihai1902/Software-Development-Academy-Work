@@ -1,4 +1,5 @@
 package model.dto;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,34 +18,15 @@ public class Timetable {
     @Column(name = "Date")
     private LocalDate date;
 
-    @Column(name = "Starting Time")
+    @Column(name = "StartingTime")
     private LocalDateTime begin;
 
-    @Column(name = "Ending Time")
+    @Column(name = "EndingTime")
     private LocalDateTime end;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name="timetables_courses", catalog = "university",
-            joinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "timetable_course")
     private List<Course> courses = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Classroom ID")
-    private List<Classroom> classrooms = new ArrayList<>();
-
-    public void setClassrooms(List<Classroom> classrooms) {
-        this.classrooms = classrooms;
-    }
-
-    public List<Classroom> getClassrooms() {
-        return classrooms;
-    }
 
     public List<Course> getCourses() {
         return courses;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Groups")
+@Table(name = "Class")
 public class Group {
 
     @Id
@@ -13,27 +13,13 @@ public class Group {
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "Group Name")
+    @Column(name = "GroupName")
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Subgroup ID")
-    private List<SubGroup> subGroups;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name="groups_courses", catalog = "university",
-            joinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            })
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "group_course")
     private List<Course> courses = new ArrayList<>();
 
-    public void setSubGroups(List<SubGroup> subGroups) {
-        this.subGroups = subGroups;
-    }
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
@@ -41,10 +27,6 @@ public class Group {
 
     public List<Course> getCourses() {
         return courses;
-    }
-
-    public List<SubGroup> getSubGroups() {
-        return subGroups;
     }
 
     public int getId() {

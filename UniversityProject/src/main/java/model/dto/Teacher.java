@@ -11,20 +11,15 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    @Column(name = "First Name")
+
+    @Column(name = "FirstName")
     private String firstName;
-    @Column(name = "Last Name")
+
+    @Column(name = "LastName")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name="teachers_courses", catalog = "university",
-            joinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "teacher_course")
     private List<Course> courses = new ArrayList<>();
 
     public List<Course> getCourses() {

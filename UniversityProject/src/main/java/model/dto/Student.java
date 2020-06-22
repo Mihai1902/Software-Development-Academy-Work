@@ -12,24 +12,19 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    @Column(name = "First Name")
+
+    @Column(name = "FirstName")
     private String firstName;
-    @Column(name = "Last Name")
+
+    @Column(name = "LastName")
     private String lastName;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Student ID")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SubgroupID")
     private SubGroup subGroup;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name="students_courses", catalog = "university",
-            joinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name="id", nullable = false, updatable = false)
-            })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "student_course")
     private List<Course> courses = new ArrayList<>();
 
     public void setCourses(List<Course> courses) {
@@ -62,5 +57,13 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public SubGroup getSubGroup() {
+        return subGroup;
+    }
+
+    public void setSubGroup(SubGroup subGroup) {
+        this.subGroup = subGroup;
     }
 }

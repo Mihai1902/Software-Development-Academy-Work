@@ -13,16 +13,12 @@ public class SubGroup {
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "Subgroup Name")
+    @Column(name = "SubgroupName")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Subgroup ID")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SubgroupID")
     private Group group;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "Student ID")
-    private List<Student> studentsList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -39,4 +35,13 @@ public class SubGroup {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
 }
