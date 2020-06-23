@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Classrooms")
 public class Classroom {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int classroomID;
 
     @Column(name = "ClassroomName")
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ClassroomID")
+    @JoinColumn(name = "classroom_id")
     private Timetable timetable;
 
     public void setTimetable(Timetable timetable) {
@@ -26,12 +25,12 @@ public class Classroom {
         return timetable;
     }
 
-    public int getId() {
-        return id;
+    public int getClassroomID() {
+        return classroomID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setClassroomID(int classroomID) {
+        this.classroomID = classroomID;
     }
 
     public String getName() {

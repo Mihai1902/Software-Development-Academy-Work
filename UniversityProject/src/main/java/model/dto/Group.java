@@ -5,19 +5,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Class")
+@Table(name = "Grups")
 public class Group {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int groupID;
 
     @Column(name = "GroupName")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "group_course")
+    @OneToMany
+    @JoinColumn(name="group_id")
+    private List<SubGroup> subgroups;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "group_course", catalog = "university",
+            joinColumns = {
+                    @JoinColumn(name = "groupID", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "courseID", nullable = false, updatable = false)
+            })
     private List<Course> courses = new ArrayList<>();
 
 
@@ -29,12 +39,12 @@ public class Group {
         return courses;
     }
 
-    public int getId() {
-        return id;
+    public int getGroupID() {
+        return groupID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 
     public String getName() {
@@ -43,5 +53,13 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<SubGroup> getSubgroups() {
+        return subgroups;
+    }
+
+    public void setSubgroups(List<SubGroup> subgroups) {
+        this.subgroups = subgroups;
     }
 }

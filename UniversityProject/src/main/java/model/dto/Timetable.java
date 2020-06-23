@@ -9,11 +9,10 @@ import java.util.List;
 @Entity
 @Table(name = "Timetables")
 public class Timetable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int timetableID;
 
     @Column(name = "Date")
     private LocalDate date;
@@ -24,8 +23,19 @@ public class Timetable {
     @Column(name = "EndingTime")
     private LocalDateTime end;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "timetable_course")
+    @OneToMany
+    @JoinColumn(name="timetable_id")
+    private List<Classroom> classrooms;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name="timetable_course", catalog = "university",
+            joinColumns = {
+                    @JoinColumn(name="timetableID", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="courseID", nullable = false, updatable = false)
+            })
     private List<Course> courses = new ArrayList<>();
 
     public List<Course> getCourses() {
@@ -36,12 +46,12 @@ public class Timetable {
         this.courses = courses;
     }
 
-    public int getId() {
-        return id;
+    public int getTimetableID() {
+        return timetableID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTimetableID(int timetableID) {
+        this.timetableID = timetableID;
     }
 
     public LocalDate getDate() {
@@ -66,5 +76,13 @@ public class Timetable {
 
     public void setEnd(LocalDateTime end) {
         this.end = end;
+    }
+
+    public List<Classroom> getClassrooms() {
+        return classrooms;
+    }
+
+    public void setClassrooms(List<Classroom> classrooms) {
+        this.classrooms = classrooms;
     }
 }

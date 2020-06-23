@@ -7,11 +7,10 @@ import java.util.List;
 @Entity
 @Table(name = "Students")
 public class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int studentID;
 
     @Column(name = "FirstName")
     private String firstName;
@@ -20,11 +19,20 @@ public class Student {
     private String lastName;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SubgroupID")
+    @JoinColumn(name = "subgroup_id")
     private SubGroup subGroup;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "student_course")
+    //@ManyToMany(fetch = FetchType.LAZY)
+    //@JoinTable(name = "student_course")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name="subgroup_course", catalog = "university",
+            joinColumns = {
+                    @JoinColumn(name="subgroupID", nullable = false, updatable = false)
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="courseID", nullable = false, updatable = false)
+            })
     private List<Course> courses = new ArrayList<>();
 
     public void setCourses(List<Course> courses) {
@@ -35,12 +43,12 @@ public class Student {
         return courses;
     }
 
-    public int getId() {
-        return id;
+    public int getStudentID() {
+        return studentID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
     }
 
     public String getFirstName() {

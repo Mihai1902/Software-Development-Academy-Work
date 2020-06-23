@@ -10,7 +10,7 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int teacherID;
 
     @Column(name = "FirstName")
     private String firstName;
@@ -18,8 +18,15 @@ public class Teacher {
     @Column(name = "LastName")
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "teacher_course")
+   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(
+           name="teacher_course", catalog = "university",
+           joinColumns = {
+                   @JoinColumn(name="teacherID", nullable = false, updatable = false)
+           },
+           inverseJoinColumns = {
+                   @JoinColumn(name="courseID", nullable = false, updatable = false)
+           })
     private List<Course> courses = new ArrayList<>();
 
     public List<Course> getCourses() {
@@ -30,12 +37,12 @@ public class Teacher {
         this.courses = courses;
     }
 
-    public int getId() {
-        return id;
+    public int getTeacherID() {
+        return teacherID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTeacherID(int teacherID) {
+        this.teacherID = teacherID;
     }
 
     public String getFirstName() {
