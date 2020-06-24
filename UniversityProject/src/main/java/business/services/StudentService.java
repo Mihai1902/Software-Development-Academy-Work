@@ -1,6 +1,5 @@
 package business.services;
 
-import model.dto.Group;
 import model.dto.Student;
 import model.service.GenericService;
 
@@ -21,11 +20,11 @@ public class StudentService {
         studentGeneric.delete(student);
     }
 
-    public Student findStudent(int id){
-        return studentGeneric.findById(id);
+    public Student findStudent(Student student, int id){
+        return studentGeneric.findById(student, id);
     }
 
-    public List<Student> getStudents(){
-        return studentGeneric.getAll();
+    public List<Student> getStudents(Student student){
+        return studentGeneric.getAll(student);
     }
 }

@@ -20,11 +20,11 @@ public class ClassroomService {
         classroomGeneric.delete(classroom);
     }
 
-    public Classroom findClassroom(int id){
-        return classroomGeneric.findById(id);
+    public Classroom findClassroom(Classroom classroom, int id){
+        return classroomGeneric.findById(classroom, id);
     }
 
-    public List<Classroom> getClassrooms(){
-        return classroomGeneric.getAll();
+    public List<Classroom> getClassrooms(Classroom classroom){
+        return classroomGeneric.getAll(classroom);
     }
 }

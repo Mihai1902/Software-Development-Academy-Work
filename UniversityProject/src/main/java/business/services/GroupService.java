@@ -20,11 +20,11 @@ public class GroupService {
         groupGeneric.delete(group);
     }
 
-    public Group findGroup(int id){
-        return groupGeneric.findById(id);
+    public Group findGroup(Group group, int id){
+        return groupGeneric.findById(group, id);
     }
 
-    public List<Group> getGroups(){
-        return groupGeneric.getAll();
+    public List<Group> getGroups(Group group){
+        return groupGeneric.getAll(group);
     }
 }

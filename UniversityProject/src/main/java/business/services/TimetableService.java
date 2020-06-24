@@ -21,11 +21,11 @@ public class TimetableService {
         timetableGeneric.delete(timetable);
     }
 
-    public Timetable findTimetable(int id){
-        return timetableGeneric.findById(id);
+    public Timetable findTimetable(Timetable timetable, int id){
+        return timetableGeneric.findById(timetable, id);
     }
 
-    public List<Timetable> getTimetables(){
-        return timetableGeneric.getAll();
+    public List<Timetable> getTimetables(Timetable timetable){
+        return timetableGeneric.getAll(timetable);
     }
 }

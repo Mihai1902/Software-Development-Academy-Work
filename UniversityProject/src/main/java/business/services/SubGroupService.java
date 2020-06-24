@@ -21,11 +21,11 @@ public class SubGroupService {
         subGroupGeneric.delete(subGroup);
     }
 
-    public SubGroup findSubGroup(int id){
-        return subGroupGeneric.findById(id);
+    public SubGroup findSubGroup(SubGroup subGroup, int id){
+        return subGroupGeneric.findById(subGroup, id);
     }
 
-    public List<SubGroup> getSubGroups(){
-        return subGroupGeneric.getAll();
+    public List<SubGroup> getSubGroups(SubGroup subGroup){
+        return subGroupGeneric.getAll(subGroup);
     }
 }

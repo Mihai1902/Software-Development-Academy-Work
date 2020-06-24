@@ -1,5 +1,6 @@
 package model.dao;
 
+import model.dto.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
@@ -15,14 +16,25 @@ public class SessionFactorySingleton {
         Properties properties = new Properties();
 
         properties.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-        properties.put(Environment.URL,"jdbc:mysql://");
-        properties.put(Environment.USER,"");
-        properties.put(Environment.PASS,"");
+        properties.put(Environment.URL,"jdbc:mysql://localhost:3306/university");
+        properties.put(Environment.USER,"root"); //TODO de completat cu user
+        properties.put(Environment.PASS,"iwasbornin921"); //TODO de completat cu parola
         properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQL5Dialect");
         properties.put(Environment.SHOW_SQL,"true");
         properties.put(Environment.HBM2DDL_AUTO,"update");
+        properties.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, "true");
 
         configuration.setProperties(properties);
+
+        configuration.addAnnotatedClass(Student.class);
+        configuration.addAnnotatedClass(Teacher.class);
+        configuration.addAnnotatedClass(Course.class);
+        configuration.addAnnotatedClass(Group.class);
+        configuration.addAnnotatedClass(SubGroup.class);
+        configuration.addAnnotatedClass(Classroom.class);
+        configuration.addAnnotatedClass(Timetable.class);
+        configuration.addAnnotatedClass(User.class);
+
         sessionFactory = configuration.buildSessionFactory();
     }
 

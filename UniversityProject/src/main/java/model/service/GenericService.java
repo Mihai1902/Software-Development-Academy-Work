@@ -1,6 +1,5 @@
 package model.service;
 
-import model.dao.IGeneric;
 import model.dao.SessionFactorySingleton;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,68 +11,72 @@ import java.util.List;
 public class GenericService<T> implements IGeneric<T> {
     private SessionFactory sessionFactory;
 
-    public GenericService(){
+    public GenericService() {
         SessionFactorySingleton sessionFactorySingleton = SessionFactorySingleton.getInstance();
         sessionFactory = sessionFactorySingleton.getSessionFactory();
     }
 
     @Override
-    public void add(T object){
+    public void add(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(object);
         transaction.commit();
 
-        if(session != null){
+        if (session != null) {
             session.close();
         }
     }
 
     @Override
-    public void update(T object){
+    public void update(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(object);
         transaction.commit();
 
-        if(session != null){
+        if (session != null) {
             session.close();
         }
     }
+
     @Override
-    public void delete(T object){
+    public void delete(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(object);
         transaction.commit();
 
-        if(session != null){
+        if (session != null) {
             session.close();
         }
     }
+
     @Override
-    public List<T> getAll(){
-        T object = null;
+    @SuppressWarnings("unchecked")
+    public List<T> getAll(T object) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from " + object.getClass().getName(),object.getClass());
+
+        Query query = session.createQuery("from " + object.getClass().getName(), object.getClass());
         List<T> results = query.getResultList();
         transaction.commit();
 
-        if(session != null){
+        if (session != null) {
             session.close();
         }
         return results;
     }
+
     @Override
-    public T findById(int id){
-        T object = null;
+    @SuppressWarnings("unchecked")
+    public T findById(T object, int id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         object = (T) session.find(object.getClass(), id);
         transaction.commit();
 
-        if(session != null){
+        if (session != null) {
             session.close();
         }
 

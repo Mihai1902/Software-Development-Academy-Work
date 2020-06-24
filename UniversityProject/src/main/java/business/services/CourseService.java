@@ -20,11 +20,12 @@ public class CourseService {
         courseGeneric.delete(course);
     }
 
-    public Course findCourse(int id){
-        return courseGeneric.findById(id);
+    public Course findCourse(Course course, int id){
+        return courseGeneric.findById(course, id);
     }
 
-    public List<Course> getCourses(){
-        return courseGeneric.getAll();
+    public List<Course> getCourses(Course course){
+        return courseGeneric.getAll(course);
     }
+
 }
