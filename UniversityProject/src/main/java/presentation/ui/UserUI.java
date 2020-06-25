@@ -54,6 +54,6 @@ public class UserUI {
     }
 
     private static void menu() {
-        System.out.println("---UNIVERSITY OF CRAIOVA---\n1.LOGIN\n2.REGISTER\n\n3.EXIT\n");
+        System.out.println("---UNIVERSITY OF CRAIOVA---\n1.LOGIN\n2.REGISTER\n\n0.EXIT\n");
     }
 }

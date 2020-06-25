@@ -14,12 +14,12 @@ public class SubGroup {
     @Column(name = "SubgroupName")
     private String name;
 
-    @OneToMany
-    @JoinColumn(name="subgroup_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="student_id")
     private List<Student> students;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subgroup_id")
+    @JoinColumn(name = "group_id")
     private Group group;
 
     public int getSubgroupID() {

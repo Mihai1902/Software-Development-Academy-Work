@@ -11,7 +11,7 @@ public class SubGroupUI {
     private SubGroupService subGroupService = new SubGroupService();
     private GroupService groupService = new GroupService();
     private Scanner scanner = new Scanner(System.in);
-
+    private GroupUI groupUI = new GroupUI();
 
     public void start() {
         while (true) {
@@ -44,7 +44,8 @@ public class SubGroupUI {
     }
 
     private void deleteSubGroup() {
-        System.out.println("Enter ID to delete: ");
+        viewSubGroups();
+        System.out.print("Enter ID to delete: ");
         SubGroup subGroup = new SubGroup();
         subGroup = subGroupService.findSubGroup(subGroup, scanner.nextInt());
         subGroupService.deleteSubGroup(subGroup);
@@ -62,14 +63,14 @@ public class SubGroupUI {
 
     }
 
-    private void viewSubGroups() {
+    public void viewSubGroups() {
         SubGroup subGroup = new SubGroup();
         List<SubGroup> subGroups = subGroupService.getSubGroups(subGroup);
         subGroups.forEach(sg -> {
             System.out.println(sg.getSubgroupID() + ". " + sg.getName());
             List<Student> students = sg.getStudents();
             if (students.isEmpty()) {
-                System.out.println("No students assigned yet.");
+                System.out.print("No students assigned yet.\n");
             } else {
                 students.forEach(student -> System.out.println(student.getStudentID() +
                         "." + student.getFirstName() +
@@ -82,12 +83,17 @@ public class SubGroupUI {
         SubGroup subGroup = new SubGroup();
         System.out.print("Enter name: ");
         subGroup.setName(scanner.next());
+        groupUI.viewGroups();
+        Group group = new Group();;
+        System.out.print("Enter ID of group: ");
+        group = groupService.findGroup(group, scanner.nextInt());
+        subGroup.setGroup(group);
         subGroupService.addSubGroup(subGroup);
     }
 
     private void menu() {
-        System.out.println("SUBGROUPS MANAGEMENT " +
-                "\n0.Exit " +
+        System.out.println("\nSUBGROUPS MANAGEMENT " +
+                "\n0.Back " +
                 "\n1.Add Subgroup " +
                 "\n2.View Subgroups " +
                 "\n3.Update Subgroup " +

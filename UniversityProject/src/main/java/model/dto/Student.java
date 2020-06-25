@@ -22,13 +22,11 @@ public class Student {
     @JoinColumn(name = "subgroup_id")
     private SubGroup subGroup;
 
-    //@ManyToMany(fetch = FetchType.LAZY)
-    //@JoinTable(name = "student_course")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name="subgroup_course", catalog = "university",
+            name="student_course", catalog = "university",
             joinColumns = {
-                    @JoinColumn(name="subgroupID", nullable = false, updatable = false)
+                    @JoinColumn(name="studentID", nullable = false, updatable = false)
             },
             inverseJoinColumns = {
                     @JoinColumn(name="courseID", nullable = false, updatable = false)

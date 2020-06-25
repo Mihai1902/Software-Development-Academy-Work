@@ -20,7 +20,7 @@ public class SessionFactorySingleton {
         properties.put(Environment.USER,"root"); //TODO de completat cu user
         properties.put(Environment.PASS,"iwasbornin921"); //TODO de completat cu parola
         properties.put(Environment.DIALECT,"org.hibernate.dialect.MySQL5Dialect");
-        properties.put(Environment.SHOW_SQL,"true");
+        properties.put(Environment.SHOW_SQL,"false");
         properties.put(Environment.HBM2DDL_AUTO,"update");
         properties.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, "true");
 

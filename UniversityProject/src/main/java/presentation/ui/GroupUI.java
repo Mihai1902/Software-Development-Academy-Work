@@ -61,24 +61,23 @@ public class GroupUI {
         groupService.updateGroup(group);
     }
 
-    private void viewGroups() {
+    public void viewGroups() {
         Group group = new Group();
         List<Group> groups = groupService.getGroups(group);
         groups.forEach(grp -> {
-            System.out.println(grp.getGroupID() + ". " + grp.getName());
+            System.out.print(" \n" + grp.getGroupID() + ". Group - " + grp.getName() + ". ");
             List<SubGroup> subGroups = grp.getSubgroups();
             if (subGroups.isEmpty()) {
-                System.out.println("No students assigned yet.");
+                System.out.print("No subgroups yet.");
             } else {
                 subGroups.forEach(subGroup -> {
-                    System.out.println(subGroup.getName());
+                    System.out.print(subGroup.getName() + "\n");
                     List<Student> students = subGroup.getStudents();
                     if (students.isEmpty()) {
                         System.out.println();
                     } else {
-                        students.forEach(student -> System.out.println(student.getStudentID() +
-                                "." + student.getFirstName() +
-                                " " + student.getLastName()));
+                        students.forEach(student -> System.out.println(student.getFirstName() +
+                                        " " + student.getLastName()));
                     }
                 });
             }
@@ -93,8 +92,8 @@ public class GroupUI {
     }
 
     private void menu() {
-        System.out.println("GROUPS MANAGEMENT " +
-                "\n0.Exit " +
+        System.out.println("\nGROUPS MANAGEMENT " +
+                "\n0.Back " +
                 "\n1.Add Group " +
                 "\n2.View Groups " +
                 "\n3.Update Group " +

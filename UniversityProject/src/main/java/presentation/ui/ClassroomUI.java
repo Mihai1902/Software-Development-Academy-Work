@@ -29,34 +29,37 @@ public class ClassroomUI {
                 }
                 case 2: {
                     viewClassroom();
+                    break;
                 }
                 case 3: {
                     updateClassroom();
+                    break;
                 }
                 case 4: {
                     deleteClassroom();
+                    break;
                 }
             }
         }
     }
 
-    public void menu() {
-        System.out.println("CLASSROOM MANAGEMENT" +
-                "0.Exit" +
+    private void menu() {
+        System.out.println("\nCLASSROOM MANAGEMENT" +
+                "\n0.Back" +
                 "\n1.Add Classroom" +
                 "\n2.View All Classrooms" +
                 "\n3.Update Classroom" +
                 "\n4.Delete Classroom");
     }
 
-    public void addClassroom() {
+    private void addClassroom() {
         System.out.println("Enter name: ");
         Classroom classroom = new Classroom();
         classroom.setName(scanner.nextLine());
         classroomService.addClassroom(classroom);
     }
 
-    public void updateClassroom() {
+    private void updateClassroom() {
         viewClassroom();
         System.out.println("Enter ID to update: ");
         int id = scanner.nextInt();
@@ -72,24 +75,26 @@ public class ClassroomUI {
         classroomService.getClassrooms(classroom).forEach(hall -> {
             System.out.println("\n" + hall.getClassroomID() + " - " + hall.getName());
             Timetable timetable = hall.getTimetable();
-            if(timetable != null ){
+            if (timetable != null) {
+                System.out.println(timetable.getDate().getDayOfMonth() + "." +
+                        timetable.getDate().getMonth().name() + " - START: " + timetable.getBegin().getHour() + " " + timetable.getBegin().getMinute()
+                        + " END: " + timetable.getEnd().getHour() + " " + timetable.getEnd().getMinute());
                 List<Course> courses = hall.getTimetable().getCourses();
                 if (courses != null) {
-                    System.out.println("Courses - ");
+                    System.out.print("Courses - ");
                     courses.forEach(course -> {
-                        System.out.print(course.getName() + "\n   " +
-                                course.getDescription());
+                        System.out.print(course.getName() + " (" + course.getDescription() + ")");
                     });
                 } else {
                     System.out.println();
                 }
-            }else {
-                System.out.println("No courses today! YAY!");
+            } else {
+                System.out.println("No courses today! YAY !");
             }
         });
     }
 
-    public void deleteClassroom() {
+    private void deleteClassroom() {
         viewClassroom();
         System.out.println("Enter ID to delete: ");
         int id = scanner.nextInt();

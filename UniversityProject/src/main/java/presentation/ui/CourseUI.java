@@ -2,16 +2,20 @@ package presentation.ui;
 
 import business.services.CourseService;
 import business.services.TeacherService;
+import business.services.TimetableService;
 import model.dto.Course;
 import model.dto.Teacher;
+import model.dto.Timetable;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class CourseUI {
+    private Scanner scanner = new Scanner(System.in);
     private CourseService courseService = new CourseService();
     private TeacherService teacherService = new TeacherService();
-    private Scanner scanner = new Scanner(System.in);
+    private TimetableService timetableService = new TimetableService();
+    private TimetableUI timetableUI = new TimetableUI();
 
     public void start() {
         while (true) {
@@ -44,49 +48,80 @@ public class CourseUI {
                     break;
                 }
                 case 6: {
-                    setCourseToStudent();
+                    setCourseToTimetable();
+                    break;
                 }
             }
         }
     }
 
-    private void setCourseToStudent() {
-    //TODO
+    private void setCourseToTimetable() {
+        Timetable timetable = new Timetable();
+        List<Timetable> timetables = timetableService.getTimetables(timetable);
+        if (!timetables.isEmpty()) {
+            timetables.forEach(t -> {
+                t.getClassrooms().forEach(c -> {
+                    if (!c.getTimetable().getCourses().isEmpty()) {
+                        System.out.println(t.getTimetableID() + ". " + t.getDate().getDayOfMonth() + " " +
+                                t.getDate().getMonthValue() + " - START: " + t.getBegin().getHour() + ":" + t.getBegin().getMinute()
+                                + " END: " + t.getEnd().getHour() + ":" + t.getEnd().getMinute());
+                    }
+                });
+
+            });
+
+            System.out.print("Enter ID: ");
+            timetable = timetableService.findTimetable(timetable, scanner.nextInt());
+            scanner.nextLine();
+            viewCourses();
+            Course course = new Course();
+            course = courseService.findCourse(course, scanner.nextInt());
+            scanner.nextLine();
+            List<Course> courses = timetable.getCourses();
+            List<Timetable> timetables1 = course.getTimetables();
+            courses.add(course);
+            timetable.setCourses(courses);
+            timetables1.add(timetable);
+            course.setTimetables(timetables1);
+            courseService.updateCourse(course);
+            timetableService.updateTimetable(timetable);
+        } else {
+            System.out.println("No timetables available yet.");
+        }
     }
+
 
     private void assignCourseToTeacher() {
         Teacher teacher = new Teacher();
         List<Teacher> teachers = teacherService.getTeachers(teacher);
         if (!teachers.isEmpty()) {
             teachers.forEach(professor -> {
-                System.out.println(professor.getTeacherID() + ". " + professor.getFirstName() + " " + professor.getLastName());
+                System.out.println(professor.getTeacherID() + ". " + professor.getFirstName() + " "
+                        + professor.getLastName());
                 List<Course> courses = professor.getCourses();
                 if (courses != null) {
-                    System.out.println("Courses - ");
-                    courses.forEach(course -> {
-                        System.out.print(course.getName() + "\n   " +
-                                course.getDescription());
-                    });
+                    viewCourses();
                 } else {
                     System.out.println();
                 }
             });
+            System.out.print("Enter ID: ");
+            teacher = teacherService.findTeacher(teacher, scanner.nextInt());
+            scanner.nextLine();
+            viewCourses();
+            Course course = new Course();
+            course = courseService.findCourse(course, scanner.nextInt());
+            scanner.nextLine();
+            List<Course> courses = teacher.getCourses();
+            courses.add(course);
+            teacherService.updateTeacher(teacher);
         } else {
             System.out.println("No teachers available yet.");
         }
-        System.out.print("Enter ID: ");
-        teacher = teacherService.findTeacher(teacher, scanner.nextInt());
-        scanner.nextLine();
-        viewCourses();
-        Course course = new Course();
-        course = courseService.findCourse(course, scanner.nextInt());
-        scanner.nextLine();
-        List<Course> courses = teacher.getCourses();
-        courses.add(course);
-        teacherService.updateTeacher(teacher);
     }
 
     private void deleteCourse() {
+        viewCourses();
         System.out.println("Enter ID to delete: ");
         Course course = new Course();
         course = courseService.findCourse(course, scanner.nextInt());
@@ -107,11 +142,12 @@ public class CourseUI {
 
     }
 
-    private void viewCourses() {
+    public void viewCourses() {
         Course course = new Course();
         List<Course> courses = courseService.getCourses(course);
         if (!courses.isEmpty()) {
-            courses.forEach(course1 -> System.out.println(course1.getCourseID() + ". " + course1.getName() + "( " + course1.getDescription() + " )"));
+            courses.forEach(course1 -> System.out.println(course1.getCourseID() + ". "
+                    + course1.getName() + "(" + course1.getDescription() + ")"));
         } else {
             System.out.println("No courses available yet.");
         }
@@ -127,12 +163,14 @@ public class CourseUI {
     }
 
     private void menu() {
-        System.out.println("COURSES MANAGEMENT " +
-                "\n0.Exit " +
+        System.out.println("\nCOURSES MANAGEMENT " +
+                "\n0.Back " +
                 "\n1.Add Course " +
                 "\n2.View Courses " +
                 "\n3.Update Course " +
-                "\n4.Delete Course\n");
+                "\n4.Delete Course " +
+                "\n5.Assign Course to Teacher " +
+                "\n6.Assign Course to Timetable \n");
     }
 
 

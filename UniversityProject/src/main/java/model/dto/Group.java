@@ -15,7 +15,7 @@ public class Group {
     @Column(name = "GroupName")
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="group_id")
     private List<SubGroup> subgroups;
 
