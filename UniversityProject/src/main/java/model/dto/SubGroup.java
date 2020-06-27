@@ -15,7 +15,7 @@ public class SubGroup {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="student_id")
+    @JoinColumn(name="subgroup_id")
     private List<Student> students;
 
     @ManyToOne(cascade = CascadeType.ALL)

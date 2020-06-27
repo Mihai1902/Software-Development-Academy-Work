@@ -1,9 +1,8 @@
 package presentation.ui;
 
+import business.services.CourseService;
 import business.services.GroupService;
-import model.dto.Group;
-import model.dto.Student;
-import model.dto.SubGroup;
+import model.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.Scanner;
 public class GroupUI {
     private GroupService groupService = new GroupService();
     private Scanner scanner = new Scanner(System.in);
+    private CourseUI courseUI = new CourseUI();
+    private CourseService courseService = new CourseService();
 
     public void start() {
         while (true) {
@@ -39,7 +40,34 @@ public class GroupUI {
                     deleteGroup();
                     break;
                 }
+                case 5: {
+                    assignCourseToGroup();
+                    break;
+                }
             }
+        }
+    }
+
+    private void assignCourseToGroup() {
+        Group group = new Group();
+        List<Group> groups = groupService.getGroups(group);
+        if (!groups.isEmpty()) {
+            groups.forEach(g -> {
+                System.out.println(g.getGroupID() + ". " + g.getName());
+            });
+            System.out.print("Enter ID of Group: ");
+            group = groupService.findGroup(group, scanner.nextInt());
+
+            courseUI.viewCourses();
+            Course course = new Course();
+            System.out.print("Enter ID of Course: ");
+            course = courseService.findCourse(course, scanner.nextInt());
+
+            List<Course> courses = group.getCourses();
+            courses.add(course);
+            groupService.updateGroup(group);
+        } else {
+            System.out.println("No groups available yet.");
         }
     }
 
@@ -97,6 +125,7 @@ public class GroupUI {
                 "\n1.Add Group " +
                 "\n2.View Groups " +
                 "\n3.Update Group " +
-                "\n4.Delete Group\n");
+                "\n4.Delete Group" +
+                "\n5.Assign Group to Course\n");
     }
 }

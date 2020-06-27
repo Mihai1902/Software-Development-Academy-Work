@@ -41,36 +41,54 @@ public class StudentUI {
                     delete();
                     break;
                 }
+                case 5: {
+                    assignStudentToSubgroup();
+                    break;
+                }
             }
         }
     }
 
+    private void assignStudentToSubgroup() {
+        Student student = new Student();
+        List<Student> students = studentService.getStudents(student);
+        if (!students.isEmpty()) {
+            students.forEach(s -> {
+                System.out.println(s.getStudentID() + ". " + s.getFirstName() + " "
+                        + s.getLastName());
+            });
+            System.out.print("Enter ID of Student: ");
+            student = studentService.findStudent(student, scanner.nextInt());
+
+            subGroupUI.viewSubGroups();
+            SubGroup subGroup = new SubGroup();
+            System.out.print("Enter ID of Subgroup: ");
+            subGroup = subGroupService.findSubGroup(subGroup, scanner.nextInt());
+
+            student.setSubGroup(subGroup);
+            studentService.updateStudent(student);
+        } else {
+            System.out.println("No Students available yet.");
+        }
+    }
     public void menu() {
         System.out.println("\nSTUDENTS MANAGEMENT" +
                 "\n0.Back" +
                 "\n1.Add Student" +
                 "\n2.View Students" +
                 "\n3.Update Student" +
-                "\n4.Delete Student\n");
+                "\n4.Delete Student" +
+                "\n5.Assign Student to Subgroup\n");
     }
 
     public void add() {
         System.out.print("Enter last name: ");
         String lastName = scanner.nextLine();
-        System.out.print("Enter last name: ");
+        System.out.print("Enter first name: ");
         String firstName = scanner.nextLine();
-        subGroupUI.viewSubGroups();
-        SubGroup subGroup = new SubGroup();
-        System.out.print("Enter ID of subgroup: ");
-        subGroup = subGroupService.findSubGroup(subGroup, scanner.nextInt());
         Student student = new Student();
-        List<Student> students = subGroup.getStudents();
-        student.setSubGroup(subGroup);
         student.setFirstName(firstName);
         student.setLastName(lastName);
-        students.add(student);
-        subGroup.setStudents(students);
-        subGroupService.updateSubGroup(subGroup);
         studentService.addStudent(student);
     }
 

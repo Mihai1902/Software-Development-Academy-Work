@@ -53,7 +53,7 @@ public class ClassroomUI {
     }
 
     private void addClassroom() {
-        System.out.println("Enter name: ");
+        System.out.print("Enter name: ");
         Classroom classroom = new Classroom();
         classroom.setName(scanner.nextLine());
         classroomService.addClassroom(classroom);
@@ -61,11 +61,11 @@ public class ClassroomUI {
 
     private void updateClassroom() {
         viewClassroom();
-        System.out.println("Enter ID to update: ");
+        System.out.print("Enter ID to update: ");
         int id = scanner.nextInt();
         Classroom classroom = new Classroom();
         classroom = classroomService.findClassroom(classroom, id);
-        System.out.println("Enter new name: ");
+        System.out.print("Enter new name: ");
         classroom.setName(scanner.nextLine());
         classroomService.updateClassroom(classroom);
     }
@@ -76,8 +76,8 @@ public class ClassroomUI {
             System.out.println("\n" + hall.getClassroomID() + " - " + hall.getName());
             Timetable timetable = hall.getTimetable();
             if (timetable != null) {
-                System.out.println(timetable.getDate().getDayOfMonth() + "." +
-                        timetable.getDate().getMonth().name() + " - START: " + timetable.getBegin().getHour() + " " + timetable.getBegin().getMinute()
+                System.out.println(timetable.getBegin().getDayOfMonth()
+                        + "-" + timetable.getBegin().getMonth().name()+ " - START: " + timetable.getBegin().getHour() + " " + timetable.getBegin().getMinute()
                         + " END: " + timetable.getEnd().getHour() + " " + timetable.getEnd().getMinute());
                 List<Course> courses = hall.getTimetable().getCourses();
                 if (courses != null) {
@@ -89,7 +89,7 @@ public class ClassroomUI {
                     System.out.println();
                 }
             } else {
-                System.out.println("No courses today! YAY !");
+                System.out.println("No courses yet.");
             }
         });
     }

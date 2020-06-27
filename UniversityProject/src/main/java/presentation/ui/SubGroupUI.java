@@ -39,10 +39,36 @@ public class SubGroupUI {
                     deleteSubGroup();
                     break;
                 }
+                case 5: {
+                    assignSubgroupToGroup();
+                    break;
+                }
             }
         }
     }
 
+
+    private void assignSubgroupToGroup() {
+        SubGroup subgroup = new SubGroup();
+        List<SubGroup> subGroups = subGroupService.getSubGroups(subgroup);
+        if (!subGroups.isEmpty()) {
+            subGroups.forEach(s -> {
+                System.out.println(s.getSubgroupID() + ". " + s.getName());
+            });
+            System.out.print("Enter ID of Subgroup: ");
+            subgroup = subGroupService.findSubGroup(subgroup, scanner.nextInt());
+
+            groupUI.viewGroups();
+            Group group = new Group();
+            System.out.print("Enter ID of Group: ");
+            group = groupService.findGroup(group, scanner.nextInt());
+
+            subgroup.setGroup(group);
+            subGroupService.updateSubGroup(subgroup);
+        } else {
+            System.out.println("No Subgroups available yet.");
+        }
+    }
     private void deleteSubGroup() {
         viewSubGroups();
         System.out.print("Enter ID to delete: ");
@@ -83,11 +109,6 @@ public class SubGroupUI {
         SubGroup subGroup = new SubGroup();
         System.out.print("Enter name: ");
         subGroup.setName(scanner.next());
-        groupUI.viewGroups();
-        Group group = new Group();;
-        System.out.print("Enter ID of group: ");
-        group = groupService.findGroup(group, scanner.nextInt());
-        subGroup.setGroup(group);
         subGroupService.addSubGroup(subGroup);
     }
 
@@ -97,6 +118,7 @@ public class SubGroupUI {
                 "\n1.Add Subgroup " +
                 "\n2.View Subgroups " +
                 "\n3.Update Subgroup " +
-                "\n4.Delete Subgroup\n");
+                "\n4.Delete Subgroup" +
+                "\n5.Assign Subgroup to Group\n");
     }
 }

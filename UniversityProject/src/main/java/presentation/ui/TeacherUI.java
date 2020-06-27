@@ -13,6 +13,7 @@ public class TeacherUI {
     private Scanner scanner = new Scanner(System.in);
     private CourseUI courseUI = new CourseUI();
     private CourseService courseService = new CourseService();
+
     public void start() {
         while (true) {
             menu();
@@ -39,7 +40,35 @@ public class TeacherUI {
                     deleteTeacher();
                     break;
                 }
+                case 5: {
+                    assignCourseToTeacher();
+                    break;
+                }
             }
+        }
+    }
+
+    private void assignCourseToTeacher() {
+        Teacher teacher = new Teacher();
+        List<Teacher> teachers = teacherService.getTeachers(teacher);
+        if (!teachers.isEmpty()) {
+            teachers.forEach(professor -> {
+                System.out.println(professor.getTeacherID() + ". " + professor.getFirstName() + " "
+                        + professor.getLastName());
+            });
+            System.out.print("Enter ID of Teacher: ");
+            teacher = teacherService.findTeacher(teacher, scanner.nextInt());
+
+            courseUI.viewCourses();
+            Course course = new Course();
+            System.out.print("Enter ID of Course: ");
+            course = courseService.findCourse(course, scanner.nextInt());
+
+            List<Course> courses = teacher.getCourses();
+            courses.add(course);
+            teacherService.updateTeacher(teacher);
+        } else {
+            System.out.println("No teachers available yet.");
         }
     }
 
@@ -71,19 +100,12 @@ public class TeacherUI {
         if (!teachers.isEmpty()) {
             teachers.forEach(professor -> {
                 System.out.println(professor.getTeacherID() + ". " + professor.getFirstName()
-                        + " " + professor.getLastName() + " - COURSES: ");
-                List<Course> courses = professor.getCourses();
-                if (courses != null) {
-                    courses.forEach(course -> {
-                        System.out.print(course.getName() + " " + course.getDescription() + " \n");
-                    });
-                } else {
-                    System.out.println();
-                }
+                        + " " + professor.getLastName() );
             });
         } else {
             System.out.println("No teachers available yet.");
         }
+
     }
 
     private void addTeacher() {
@@ -92,13 +114,6 @@ public class TeacherUI {
         teacher.setFirstName(scanner.next());
         System.out.print("Enter last name: ");
         teacher.setLastName(scanner.next());
-        courseUI.viewCourses();
-        Course course = new Course();
-        System.out.print("Enter ID of course: ");
-        course = courseService.findCourse(course, scanner.nextInt());
-        List<Course> courses = teacher.getCourses();
-        courses.add(course);
-        teacher.setCourses(courses);
         teacherService.addTeacher(teacher);
     }
 
@@ -108,6 +123,7 @@ public class TeacherUI {
                 "\n1.Add Teacher " +
                 "\n2.View Teachers " +
                 "\n3.Update Teacher " +
-                "\n4.Delete Teacher\n");
+                "\n4.Delete Teacher" +
+                "\n5.Assign Teacher to Course\n");
     }
 }

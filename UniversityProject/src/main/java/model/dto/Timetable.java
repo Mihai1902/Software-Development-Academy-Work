@@ -14,9 +14,6 @@ public class Timetable {
     @Column(name = "ID")
     private int timetableID;
 
-    @Column(name = "Date")
-    private LocalDate date;
-
     @Column(name = "StartingTime")
     private LocalDateTime begin;
 
@@ -31,10 +28,10 @@ public class Timetable {
     @JoinTable(
             name="timetable_course", catalog = "university",
             joinColumns = {
-                    @JoinColumn(name="timetableID", nullable = false, updatable = false)
+                    @JoinColumn(name="timetableID", updatable = false)
             },
             inverseJoinColumns = {
-                    @JoinColumn(name="courseID", nullable = false, updatable = false)
+                    @JoinColumn(name="courseID", updatable = false)
             })
     private List<Course> courses = new ArrayList<>();
 
@@ -52,14 +49,6 @@ public class Timetable {
 
     public void setTimetableID(int timetableID) {
         this.timetableID = timetableID;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public LocalDateTime getBegin() {

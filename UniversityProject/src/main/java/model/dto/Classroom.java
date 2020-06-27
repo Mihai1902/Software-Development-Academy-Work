@@ -14,7 +14,7 @@ public class Classroom {
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "timetable_id")
     private Timetable timetable;
 
     public void setTimetable(Timetable timetable) {

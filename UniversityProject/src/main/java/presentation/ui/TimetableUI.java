@@ -1,6 +1,7 @@
 package presentation.ui;
 
 import business.services.ClassroomService;
+import business.services.CourseService;
 import business.services.TimetableService;
 import model.dto.Classroom;
 import model.dto.Course;
@@ -46,8 +47,49 @@ public class TimetableUI {
                     deleteTimetable();
                     break;
                 }
+                case 5: {
+                    assignTimetableToClassroom();
+                    break;
+                }
             }
         }
+    }
+
+    private void assignTimetableToClassroom() {
+        Timetable timetable = new Timetable();
+        List<Timetable> timetables = timetableService.getTimetables(timetable);
+        if(!timetables.isEmpty()){
+            viewTimetables();
+        }
+        System.out.print("Enter ID of Timetable: ");
+        timetable = timetableService.findTimetable(timetable,scanner.nextInt());
+
+        classroomUI.viewClassroom();
+        Classroom classroom = new Classroom();
+        System.out.print("Enter ID of Classroom: ");
+        classroom = classroomService.findClassroom(classroom,scanner.nextInt());
+
+        List<Classroom> classrooms = timetable.getClassrooms();
+        classrooms.add(classroom);
+        timetableService.updateTimetable(timetable);
+        /*
+        Classroom classroom = new Classroom();
+        List<Classroom> classrooms = classroomService.getClassrooms(classroom);
+        classrooms.stream().forEach(c -> System.out.println(c.getClassroomID() + ". " +
+                c.getName()));
+
+        System.out.print("Enter ID of Classroom: ");
+        classroom = classroomService.findClassroom(classroom, scanner.nextInt());
+
+        Timetable timetable = new Timetable();
+        viewTimetables();
+        System.out.print("\nEnter ID of Timetable: ");
+        timetable = timetableService.findTimetable(timetable, scanner.nextInt());
+
+        classroom.setTimetable(timetable);
+        timetableService.updateTimetable(timetable);
+
+         */
     }
 
     private void deleteTimetable() {
@@ -70,47 +112,32 @@ public class TimetableUI {
         System.out.print("Enter new end date: ");
         String end = scanner.next();
         LocalDateTime endTime = LocalDateTime.parse(end);
-        System.out.println("Enter new date: ");
-        String date = scanner.next();
-        LocalDate localDate = LocalDate.parse(date);
         timetable.setBegin(beginTime);
         timetable.setEnd(endTime);
-        timetable.setDate(localDate);
         timetableService.updateTimetable(timetable);
 
     }
 
-    private void viewTimetables() {
-        Timetable timetable = new Timetable();
+    public void viewTimetables() {
+        /*Timetable timetable = new Timetable();
         List<Timetable> timetables = timetableService.getTimetables(timetable);
         if (!timetables.isEmpty()) {
             timetables.forEach(timetab -> {
-                System.out.println(timetab.getTimetableID() + ". " + timetab.getBegin().getHour() + " : " + timetab.getBegin().getMinute()
-                        + " - " + timetab.getBegin().getDayOfMonth() + "." + timetab.getBegin().getMonth() + "." + timetab.getBegin().getMonth());
+                System.out.println(timetab.getTimetableID() + ". " + timetab.getBegin().getHour() + ":" + timetab.getBegin().getMinute()
+                        + " - " + timetab.getEnd().getHour() + ":" + timetab.getEnd().getMinute() + " Date: " + timetab.getDate());
                 List<Classroom> classrooms = timetab.getClassrooms();
-                if (classrooms != null) {
-                    System.out.print("Classroom - ");
-                    classrooms.forEach(classroom -> {
-                        System.out.print(classroom.getName() + "\n");
-
-                        List<Course> courses = classroom.getTimetable().getCourses();
-                        if (courses != null) {
-                            System.out.println("Courses - ");
-                            courses.forEach(course -> {
-                                System.out.print(course.getName() + "\n   " +
-                                        course.getDescription());
-                            });
-                        } else {
-                            System.out.println();
-                        }
-                    });
-                } else {
-                    System.out.println();
-                }
             });
         } else {
             System.out.println("No timetables available yet.");
         }
+         */
+        Timetable timetable = new Timetable();
+        List<Timetable> timetables = timetableService.getTimetables(timetable);
+        timetables.forEach(t -> System.out.print("" + t.getTimetableID() + ". " + t.getBegin().getHour()
+                + ":" + t.getBegin().getMinute()
+                + " - " + t.getEnd().getHour() + ":" + t.getEnd().getMinute() + " Date: " + t.getBegin().getDayOfMonth()
+                + "-" + t.getBegin().getMonth().name()));
+
     }
 
     private void addTimetable() {
@@ -121,21 +148,10 @@ public class TimetableUI {
         System.out.print("Enter end date: ");
         String end = scanner.next();
         LocalDateTime endTime = LocalDateTime.parse(end);
-        System.out.println("Enter date: ");
-        String date = scanner.next();
-        LocalDate localDate = LocalDate.parse(date);
         timetable.setBegin(beginTime);
         timetable.setEnd(endTime);
-        timetable.setDate(localDate);
-        classroomUI.viewClassroom();
-        Classroom classroom = new Classroom();
-        System.out.print("Enter ID of classroom: ");
-        classroom = classroomService.findClassroom(classroom, scanner.nextInt());
-        List<Classroom> classrooms = new ArrayList<>();
-        classroom.setTimetable(timetable);
-        classrooms.add(classroom);
-        timetable.setClassrooms(classrooms);
-        classroomService.updateClassroom(classroom);
+
+
         timetableService.addTimetable(timetable);
     }
 
@@ -145,6 +161,7 @@ public class TimetableUI {
                 "\n1.Add Timetable " +
                 "\n2.View Timetables " +
                 "\n3.Update Timetable " +
-                "\n4.Delete Timetable\n");
+                "\n4.Delete Timetable" +
+                "\n5.Assign Timetable to Classroom");
     }
 }

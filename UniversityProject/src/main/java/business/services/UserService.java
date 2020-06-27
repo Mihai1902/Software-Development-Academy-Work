@@ -30,7 +30,7 @@ public class UserService implements IUser {
     @Override
     public boolean login(User user) {
         List<User> list = userGenericService.getAll(user);
-        return list.stream().anyMatch(u -> u.getUsername().equalsIgnoreCase(user.getUsername())
-                && u.getPassword().equalsIgnoreCase(user.getPassword()));
+        return list.stream().anyMatch(u -> u.getUsername().equals(user.getUsername())
+                && u.getPassword().equals(user.getPassword()));
     }
 }
